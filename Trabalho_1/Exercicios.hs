@@ -3,7 +3,7 @@
 
 module Trabalho_1.Testes.Exercicios where
 import GHC.Real (notANumber)
-import Graphics.Win32 (bST_CHECKED)
+import Graphics.Win32 (bST_CHECKED, mFS_CHECKED)
 import Data.List (sort)
 import Distribution.Compat.CharParsing (CharParsing(string))
 
@@ -43,8 +43,6 @@ isDecrescente [n] = True
 isDecrescente  (n:ns)
     | n <= head ns = False
     | otherwise = isDecrescente ns
-
-
 
 -- 4) (Valor da questão: 2,0 pontos)
 -- defina uma função que recebe uma lista de strings como entrada e computa uma lista de pares
@@ -96,16 +94,20 @@ aprovadosOrdemDeMedia ((nome,nota1,nota2):as)
 -- OBSERVAÇÃO: considere que os inputs são válidos (ou seja, as matrizes são válidas e as suas dimensões são compatíveis para soma e multiplicação)
 somaMatricial :: Num u => [[u]] -> [[u]] -> [[u]]
 somaMatricial [] [] = []
-somaMatricial (a:as) (b:bs) = myZipWith (+) a b : somaMatricial as bs
+somaMatricial (a:as) (b:bs) = myZipPlus a b : somaMatricial as bs
     where
-        myZipWith :: (a -> b -> c) -> [a] -> [b] -> [c]
-        myZipWith f [] _ = []
-        myZipWith f _ [] = []
-        myZipWith f (a:as) (b:bs) = f a b : myZipWith f as bs
+        myZipPlus  [] _ = []
+        myZipPlus  _ [] = []
+        myZipPlus (a:as) (b:bs) = a + b : myZipPlus as bs
 
 
 matrizTransposta :: Num u => [[u]] -> [[u]]
-matrizTransposta = undefined
+matrizTransposta [] = []
+matrizTransposta m
+    | null (head m) = []
+    | otherwise =  map head m : matrizTransposta ( map tail m )
+
+
 
 multiplicacaoMatricial :: Num u => [[u]] -> [[u]] -> [[u]]
 multiplicacaoMatricial = undefined
